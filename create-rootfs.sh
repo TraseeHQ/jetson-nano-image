@@ -37,19 +37,25 @@ fi
 
 # Run debootsrap first stage
 printf "Run debootstrap first stage...  "
-fakechroot fakeroot -s .fakeroot.state debootstrap \
+debootstrap \
         --arch=$ARCH \
         --keyring=/usr/share/keyrings/ubuntu-archive-keyring.gpg \
         --foreign \
-        --variant=fakechroot \
+        --variant=minbase \
 	--include=python3,libegl1,python3-apt \
         $RELEASE \
-	$JETSON_ROOTFS_DIR
+	$JETSON_ROOTFS_DIR > /dev/null
 printf "[OK]\n"
+
+# Copy qemu-aarch64-static
+cp /usr/bin/qemu-aarch64-static $JETSON_ROOTFS_DIR/usr/bin
+# Copy resolv.conf
+cp /etc/resolv.conf $JETSON_ROOTFS_DIR/etc/
 
 # Run debootstrap second stage
 printf "Run debootstrap second stage... "
-fakechroot fakeroot -s .fakeroot.state chroot $JETSON_ROOTFS_DIR /bin/bash -c "/debootstrap/debootstrap --second-stage --variant=fakechroot"
+chroot $JETSON_ROOTFS_DIR /bin/bash -c "/debootstrap/debootstrap --second-stage"  > /dev/null
 printf "[OK]\n"
 
 printf "Success!\n"
+
