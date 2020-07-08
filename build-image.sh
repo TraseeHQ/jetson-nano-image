@@ -48,6 +48,6 @@ printf "Extract L4T...        "
 printf "[OK]\n"
 
 # Move L4T files to volume
-cp -r $JETSON_BUILD_DIR/Linux_for_Tegra build
+cp -r $JETSON_BUILD_DIR/Linux_for_Tegra /jetson/build
 
 printf "\e[32mImage files built successfully\n"
