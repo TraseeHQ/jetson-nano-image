@@ -23,7 +23,7 @@ build: run.qemu-static build.builder-image ## Create image files in builder cont
 save.image: ## Save image for flashing
 	sudo ./save-image.sh
 	
-drive ?= CHANGEME
-flash: ## Flash image to SD card
-	sudo ./flash-image.sh build/jetson.img $(drive)
+target ?= CHANGEME
+flash: ## Flash image to SD card: target=/dev/sdx make flash
+	sudo ./flash-image.sh build/jetson.img $(target)
 
