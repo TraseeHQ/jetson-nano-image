@@ -21,12 +21,6 @@ if [ ! $JETSON_ROOTFS_DIR ]; then
 	exit 1
 fi
 
-# Install prerequisites packages
-printf "\e[32mInstall the dependencies...  "
-apt-get update > /dev/null
-apt-get install --no-install-recommends -y qemu-user-static debootstrap coreutils parted wget gdisk e2fsprogs > /dev/null
-printf "[OK]\n"
-
 # Create rootfs directory
 printf "Create rootfs directory...    "
 mkdir -p $JETSON_ROOTFS_DIR
@@ -55,6 +49,8 @@ printf "[OK]\n"
 
 # Copy qemu-aarch64-static
 cp /usr/bin/qemu-aarch64-static $JETSON_ROOTFS_DIR/usr/bin
+# Copy resolv.conf
+cp /etc/resolv.conf $JETSON_ROOTFS_DIR/etc/
 
 # Run debootstrap second stage
 printf "Run debootstrap second stage... "
@@ -62,3 +58,4 @@ chroot $JETSON_ROOTFS_DIR /bin/bash -c "/debootstrap/debootstrap --second-stage"
 printf "[OK]\n"
 
 printf "Success!\n"
+

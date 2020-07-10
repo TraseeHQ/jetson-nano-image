@@ -47,11 +47,7 @@ printf "Extract L4T...        "
 ./apply_binaries.sh > /dev/null
 printf "[OK]\n"
 
-printf "Create image...       "
-rootfs_size=$(du -hsBM $JETSON_BUILD_DIR/Linux_for_Tegra/rootfs | awk '{print $1}')
-rootfs_size=$(echo $((${rootfs_size%?} + 200))"M")
-./create-jetson-nano-sd-card-image.sh -o jetson.img -s $rootfs_size -r 200
-printf "OK\n"
+# Move L4T files to volume
+cp -r $JETSON_BUILD_DIR/Linux_for_Tegra /jetson/build
 
-printf "\e[32mImage created successfully\n"
-printf "Image location: $JETSON_BUILD_DIR/Linux_for_Tegra/jetson.img\n"
+printf "\e[32mImage files built successfully\n"
